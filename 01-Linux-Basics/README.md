@@ -1,9 +1,6 @@
 ## Exercises
 <br />
 
-******
-
-<details>
 <summary>Exercise 2: Bash Script - Install Java </summary>
 <br />
 
@@ -21,8 +18,7 @@ It prints relevant informative messages for all 3 conditions. Installation was s
 
 ******
 
-<details>
-<summary>Exercise 3, 4, 5: Bash Script - User Processes</summary>
+<summary>Exercise 3: Bash Script - User Processes</summary>
  <br />
 
 - 3. Write a bash script using Vim editor that checks all the processes running for the current user (USER env var) and prints out the processes in console.
@@ -34,8 +30,7 @@ Hint: use `ps aux` command and grep for the user.
 
 ******
 
-<details>
-<summary>Exercise 6, 7: Start NodeJs App</summary>
+<summary>Exercise 4: Start NodeJs App</summary>
 <br />
 
 Write a bash script with following logic: 
@@ -57,8 +52,7 @@ Notes:
 
 ******
 
-<details>
-<summary>Exercise 8, 9: Start NodeJs App with Service user & Log Directory</summary>
+<summary>Exercise 5: Start NodeJs App with Service user & Log Directory</summary>
 <br />
 
 Extend the script to accept a parameter input log_directory: a directory where application will write logs.
@@ -88,7 +82,4 @@ This is the end of log entries
 
 -----
 
-</details>
-
 ******
-
