@@ -1,6 +1,18 @@
 ## Notes for Version Control with Git
 <br />
 
+<summary>Git commands</summary>
+<br />
+
+To add the remote url to local:<br />
+`git remote add origin <url>` <br />
+
+To check if remote is added or not:<br />
+`git remote -v`
+
+To remove origin or any other url which is named while adding remote:<br />
+`git remote remove origin`
+
 <summary>Concept of Branches</summary>
 <br />
 
