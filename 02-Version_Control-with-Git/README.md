@@ -1,7 +1,7 @@
-## Notes on the videos
+## Notes for Version Control with Git
 <br />
 
-<summary>Video: Concept of Branches</summary>
+<summary>Concept of Branches</summary>
 <br />
 
 Pull and track a remote branch:<br />
@@ -33,7 +33,7 @@ Update branches (and delete references to no longer existing remote branches):<b
 
 *****
 
-<summary>Video: Deleting Branches</summary>
+<summary>Deleting Branches</summary>
 <br />
 
 Delete a local branch:<br />
@@ -44,7 +44,7 @@ Delete a remote branch:<br />
 
 *****
 
-<summary>Video: Gitignore</summary>
+<summary>Gitignore</summary>
 <br />
 
 If you want git to ignore a file or directory, you can add it to .gitignore. But if that file or directory is already tracked by git (i.e. it is already part of a commit and has been pushed to the remote repository), you have to remove it from the git cache and push that change to delete it also on the remote repository.
