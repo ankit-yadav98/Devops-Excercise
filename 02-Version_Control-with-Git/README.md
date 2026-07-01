@@ -87,8 +87,8 @@ Aborting
 So, in order to move to other branch-A and work there and want to save the changes which you have made in Branch-B, you can do it by stashing the changes by using below command:
 `git stash'
 
-And then you can checkout to other Branch-A and work there. And now if you want to come back to the Branch-B and continue your work here. You will do it as below:
-`git checkout Branch-B`
+And then you can checkout to other Branch-A and work there. And now if you want to come back to the Branch-B and continue your work here. You will do it as below:<br />
+`git checkout Branch-B` <br />
 `git stash pop`
 
 And now you can continue your work here.
