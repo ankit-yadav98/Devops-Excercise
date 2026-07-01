@@ -72,3 +72,23 @@ Find out which .gitignore entry is responsible for a certain file being ignored?
 `git check-ignore -v <path/to/file>`
 
 ******
+<summary>Git stash</summary>
+<br />
+
+Suppose if we are on branch-B and have made some changes locally and now we want to switch to some other Branch-A then git will throw an error as below:
+
+```sh
+error: Your local changes to the following files would be overwritten by checkout:
+        app/server.js
+Please commit your changes or stash them before you switch branches.
+Aborting
+```
+
+So, in order to move to other branch-A and work there and want to save the changes which you have made in Branch-B, you can do it by stashing the changes by using below command:
+`git stash'
+
+And then you can checkout to other Branch-A and work there. And now if you want to come back to the Branch-B and continue your work here. You will do it as below:
+`git checkout Branch-B`
+`git stash pop`
+
+And now you can continue your work here.
