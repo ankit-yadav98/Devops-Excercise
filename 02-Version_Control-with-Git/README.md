@@ -92,3 +92,30 @@ And then you can checkout to other Branch-A and work there. And now if you want 
 `git stash pop`
 
 And now you can continue your work here.
+
+*******
+<summary>Git commit</summary>
+<br />
+
+If we want to go to a particular commit. Let's say in order to reproduce a bug or track when the bug was introduced. <br />
+`git checkout <hash commit in history>`
+
+To revert back to HEAD, we can use below command <br />
+`git checkout <branch_Name>`
+
+Below command used to reset the commit to previous commit where HEAD~1 represents previous commit. HEAD~2 represents previous to previous commit. And so on. <br />
+hard is used to tell to remove the commit from the staging area as well i.e. from "git add filename" stage which in truns means that changes will be reverted to previous commit <br />
+
+`git reset --hard HEAD~1` 
+
+Whereas --soft or if we don't give any parameter then it is treated as soft. So, here commit is being removed from git log history and the changes are being staged i.e. files changes are remained and are present in the staging area and we can make the changes to those files. In this changes are not lost i.e. changes are still present in your working direectory whereas in hard reset changes are lost. <br />
+`git reset HEAD~1` <br />
+
+So, like after making the soft reset. Now, we want to make some more changes and want to add those in our previous commit i.e. in the previous git log and not a new commit logs i.e. it changes the last commit. <br />
+`git commit --amend` <br />
+
+All the above changes are done locally. So, in order to make the changes on the remote repo. We have to push forecully as below: <br />
+`git push --force` <br />
+
+Creates a new commit to revert the old commit changes. It reverts the changes by making a new commit i.e. adds in the history logs whereas git reset removes the commit from history log. <br />
+`git revert <commit hash> ` <br />
