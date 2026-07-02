@@ -12,7 +12,7 @@
 ```sh
 
 # clone repository & change into project dir
-git clone git@gitlab.com:devops-bootcamp3/git-project.git
+git clone https://gitlab.com/twn-devops-bootcamp/latest/03-git/git-exercises.git
 cd git-project
 
 # remove remote repo reference and create your own local repository
@@ -22,7 +22,7 @@ git add .
 git commit -m "Initial commit"
 
 # create git repository on GitHub and push your newly created local repository to it
-git remote add origin https://github.com/fsiegrist/devops-bootcamp-03-git.git
+git remote add origin https://github.com/ankit-yadav98/git-exercise.git
 git push -u origin main
 
 ```
