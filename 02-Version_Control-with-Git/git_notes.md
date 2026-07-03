@@ -120,6 +120,36 @@ All the above changes are done locally. So, in order to make the changes on the 
 Creates a new commit to revert the old commit changes. It reverts the changes by making a new commit i.e. adds in the history logs whereas git reset removes the commit from history log. <br />
 `git revert <commit hash> ` <br />
 
+********
+<summary>Git log </summary>
+<br />
+
 You can list the changed files as well using the --name-only option with the git log command
 `git log --name-only ` <br />
 
+`git log --graph --decorate` command is used to visually see the when branches were checked out from which branch. <br />
+
+--graph Shows a visual ASCII graph of branch and merge history on the left side <br />
+--decorate Shows branch names, tags, and HEAD pointer next to commits <br />
+
+Sample Output as below: <br />
+```sh
+* commit b4024a26 (HEAD -> master, origin/master)
+| Author: sarah <sarah@example.com>
+| Date:   Fri Jul 3 09:12:35 2026
+|     Added the Lion and Mouse story
+|
+*   commit a806d77 (bugfix/exercise-4)
+|\  Merge: ad5034c 59496da
+| | Author: sarah <sarah@example.com>
+| |     Merged bugfix branch
+| |
+| * commit 59496da (feature-branch)
+| | Author: john <john@example.com>
+| |     Added new feature
+|/
+* commit ad5034c
+    Author: sarah <sarah@example.com>
+        Initial commit
+```
+`--graph --decorate --oneline --all` is the most popular combination — it gives a clean visual overview of your entire repo history with all branches in one line each.
