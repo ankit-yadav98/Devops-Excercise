@@ -119,3 +119,7 @@ All the above changes are done locally. So, in order to make the changes on the 
 
 Creates a new commit to revert the old commit changes. It reverts the changes by making a new commit i.e. adds in the history logs whereas git reset removes the commit from history log. <br />
 `git revert <commit hash> ` <br />
+
+You can list the changed files as well using the --name-only option with the git log command
+`git log --name-only ` <br />
+
