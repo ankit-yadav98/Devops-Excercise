@@ -181,3 +181,54 @@ my-app/
 | Spring Boot projects | Both work well |
 
 ---
+
+## Maven vs Gradle — Repository
+
+Both Maven and Gradle download dependencies from the same repository:
+
+```
+Maven Central Repository: https://repo.maven.apache.org/maven2
+```
+
+Local repository location:
+```bash
+~/.m2/repository    # Maven local cache
+~/.gradle/caches    # Gradle local cache
+```
+
+---
+
+## Gradle Wrapper vs System Gradle
+
+Always prefer using **Gradle Wrapper** (`./gradlew`) over system Gradle:
+
+```bash
+# System gradle (may have version issues)
+gradle build
+
+# Gradle wrapper (uses project's exact gradle version) ✅
+./gradlew build
+```
+
+The wrapper version is defined in:
+```
+gradle/wrapper/gradle-wrapper.properties
+```
+
+---
+
+## Quick Reference
+
+### Maven
+```bash
+mvn clean package       # clean + build
+mvn spring-boot:run     # run Spring Boot app
+mvn -DskipTests package # build without running tests
+```
+
+### Gradle
+```bash
+./gradlew clean build       # clean + build
+./gradlew bootRun           # run Spring Boot app
+./gradlew build -x test     # build without running tests
+```
