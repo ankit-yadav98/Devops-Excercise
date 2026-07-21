@@ -238,6 +238,8 @@ mvn -DskipTests package # build without running tests
 
 JavaScript does not need a build tool. Unlike Java, JS is interpreted directly by Node.js or the browser. npm is just a package manager, not a build tool like Maven or Gradle.
 
+Package managers are used for installing dependencies but not used for transpiling the JS code.
+
 Some JS frameworks use build/bundling tools but only for:
 
 | Tool | Purpose | Required? |
