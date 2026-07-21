@@ -599,3 +599,54 @@ node index.js
 # 6. Build for production
 npm run build
 ```
+
+---
+
+## Build Tools and Docker
+
+Building and distributing artifact was made easier with Docker. We don't need to build and move different artifact types (eg. WAR, JAR, Zip).
+
+Docker image is an alternative for all other artifact types.
+
+So, we are just working with one type of artifact i.e. Docker Image. We build docker images from these applications. So, in short, we don't need to move the tar,zip or package.json file to the server to run on it. Even no need to even zip the code. We will simply copy these files in the docker filesystem and then run it from the docker image. Additional advantage is that we don't need to manually install the dependencies on the server. We can execute the install command inside the docker image. So, when the docker image runs then those dependencies are automatically installed.
+
+But note that we still have to build the Java or JS app and then put it in the docker. As we don't have to move all the application files to some nexus artifact repository or jFrog repository. 
+
+### Node.js Application Dockerfile:
+
+```bash
+# Base image
+FROM node:17-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies (no need to install manually on server)
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Run the app
+CMD ["node", "index.js"]
+```
+
+### Java Application Dockerfile:
+
+```bash
+FROM openjdk:8-jre-alpine
+
+EXPOSE 8080
+
+COPY ./build/libs/java-app-1.0-SNAPSHOT.jar /usr/app/
+WORKDIR /usr/app
+
+ENTRYPOINT ["java", "-jar", "java-app-1.0-SNAPSHOT.jar"]
+```
+
