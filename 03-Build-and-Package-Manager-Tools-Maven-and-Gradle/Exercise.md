@@ -35,7 +35,7 @@ The Build will fail, because of a compile error in a test, so you can't build th
 **steps**
 
 ```sh
-./gradlew build
+gradle build
 ```
 
 ******
@@ -52,7 +52,7 @@ The Build will fail, because of a compile error in a test, so you can't build th
 boolean result = myApp.getCondition(true); 
 
 # run tests
-./gradlew test
+gradle test
 ```
 
 ******
@@ -66,8 +66,8 @@ You fixed the test. Now:
 
 **steps:**
 ```sh
-./gradlew clean 
-./gradlew build
+gradle clean 
+gradle build
 ```
 
 ******
@@ -112,9 +112,9 @@ try {
 # add parameter input to the Java code (see code snipped of the exercise description)
 
 # rebuild the jar file 
-./gradlew build
+gradle build
 
 # run application with ANY 2 parameters
-java -jar build/libs/bootcamp-java-project-1.0-SNAPSHOT.jar felix siegrist
+java -jar build/libs/bootcamp-java-project-1.0-SNAPSHOT.jar Ankit Yadav
 ```
 
