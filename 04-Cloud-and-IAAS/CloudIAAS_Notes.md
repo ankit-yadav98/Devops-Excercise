@@ -1,7 +1,7 @@
 ## Notes on AWS EC2 Instance and app deployment on server
 <br />
 
-<summary> Setup Server on DigitalOcean</summary>
+<summary> Setup Server on AWS</summary>
 <br />
 
 Create an account on AWS.
@@ -30,7 +30,7 @@ Install Java:
 
 *****
 
-<summary> Deploy and run application artifact on Droplet</summary>
+<summary> Deploy and run application artifact on EC2 Instance</summary>
 <br />
 
 Clone https://github.com/nanuchi/java-react-example.git
@@ -48,7 +48,7 @@ Start the application on the server:
 
 The application starts and prints out: "Tomcat started on port(s): 7071 (http)". To open this port for browsers from any IP address, add another rule of type "Custom", TCP, port 7071, for any IP adresses to the EC2 Firewall security groups you created before.
 
-Open the application in your browser calling `http://<droplet-ip-address>:7071`
+Open the application in your browser calling `http://<EC2Instance-ip-address>:7071`
 
 To run the application in the background, start it executing `java -jar java-react-example.jar &`.
 Use `ps aux` and `netstat -tlnp` (install it first using `apt install net-tools`) to get the process PID and the port.
