@@ -1,8 +1,8 @@
-## Notes on the videos
+## Notes for Nexus Artifact Repository
 <br />
 
 <details>
-<summary>Video: Install and Run Nexus on a Cloud Server</summary>
+<summary> Install and Run Nexus on a Cloud Server</summary>
 <br />
 
 Login to your account on [DigitalOcean](https://cloud.digitalocean.com/login) and create a new Droplet having at least 4GB RAM (better 8GB). Create a firewall rule opening the ports 22 for SSH.
@@ -47,7 +47,7 @@ Now you can access Nexus in your browser via `http://<droplet-ip-address>:8081`.
 *****
 
 <details>
-<summary>Video: Introduction to Nexus</summary>
+<summary> Introduction to Nexus</summary>
 <br />
 
 There is a predefined `admin` user. Its password is stored in `/opt/sonatype-work/nexus3/admin.password`.
@@ -58,7 +58,7 @@ You can log in with this password on the nexus website. You will be prompted to 
 *****
 
 <details>
-<summary>Video: Repository Types</summary>
+<summary>Repository Types</summary>
 <br />
 
 Log in as admin user and click on the green settings button at the top of the page.
@@ -74,7 +74,7 @@ Repository Types:
 *****
 
 <details>
-<summary>Video: Publish Artifact to Repository</summary>
+<summary> Publish Artifact to Repository</summary>
 <br />
 
 In order to allow Maven or Gradle to upload build artifacts to the Nexus repository, we have to create a Nexus user and give it the resquired privileges.
@@ -184,7 +184,7 @@ See this [Blog Post](https://levelup.gitconnected.com/deploying-private-npm-pack
 *****
 
 <details>
-<summary>Video: Nexus REST API</summary>
+<summary>Nexus REST API</summary>
 <br />
 
 Detailed information can be found in the [Nexus 3 Documentation](https://help.sonatype.com/repomanager3/integrations/rest-and-integration-api).
@@ -205,7 +205,7 @@ Get all assets (files) of a specific component:\
 *****
 
 <details>
-<summary>Video: Blob Store</summary>
+<summary>Blob Store</summary>
 <br />
 
 Detailed information can be found in the [Nexus 3 Documentation](https://help.sonatype.com/repomanager3/nexus-repository-administration/repository-management/configuring-blob-stores).
@@ -233,7 +233,7 @@ In JAR repositories each component has its own assets. Assets belong to exactly 
 *****
 
 <details>
-<summary>Video: Cleanup Policies and Scheduled Tasks</summary>
+<summary>Cleanup Policies and Scheduled Tasks</summary>
 <br />
 
 Detailed information can be found in the Nexus 3 documentation on [Cleanup Policies](https://help.sonatype.com/repomanager3/nexus-repository-administration/repository-management/cleanup-policies) and [Tasks](https://help.sonatype.com/repomanager3/nexus-repository-administration/tasks).
