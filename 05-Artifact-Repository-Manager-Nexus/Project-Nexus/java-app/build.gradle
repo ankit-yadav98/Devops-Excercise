@@ -27,7 +27,7 @@ publishing {
     repositories {
         maven {
             name 'nexus'
-            url "http://51.21.199.192:8081/repository/maven-snapshots/"
+            url "http://13.63.129.73:8081/repository/maven-snapshots/"
             allowInsecureProtocol = true
             credentials {
                 username project.repoUser
