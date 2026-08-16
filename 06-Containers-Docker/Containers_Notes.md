@@ -2,7 +2,7 @@
 <br />
 
 
-<summary> What is a container</summary>
+<summary> What is a container? </summary>
 <br />
 
 [Docker vs containerd vs cri-o](https://phoenixnap.com/kb/docker-vs-containerd-vs-cri-o) \
