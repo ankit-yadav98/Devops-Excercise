@@ -1,35 +1,153 @@
-## Notes on the videos
+# Notes on Docker
 <br />
 
+## What is a Container?
 
-## What is a container? 
-<br />
+A **container** is a lightweight, standalone, executable package that bundles an application together with everything it needs to run — code, runtime, system libraries, and settings. Containers isolate applications from the underlying host system while sharing the host's OS kernel, making them much lighter than traditional virtual machines.
 
-[Docker vs containerd vs cri-o](https://phoenixnap.com/kb/docker-vs-containerd-vs-cri-o) \
-[The differences between Docker, containerd, CRI-O and runc](https://www.tutorialworks.com/difference-docker-containerd-runc-crio-oci/)
+### Key Characteristics
 
-For buildah, see links in notes on video 4 - Docker Architecture.
+- **Isolated** — each container runs in its own isolated user space (its own filesystem, processes, and network view), so apps don't interfere with each other.
+- **Lightweight** — containers share the host OS kernel instead of bundling a full guest OS, so they start in seconds and use far fewer resources than a VM.
+- **Portable** — a container behaves the same way regardless of where it runs (your laptop, a colleague's machine, or a cloud server), because it packages the app with all its dependencies.
+- **Ephemeral by nature** — containers can be started, stopped, destroyed, and recreated quickly, and are often treated as disposable.
+
+*****
+
+## Container vs Image
+
+- An **image** is a read-only template (blueprint) — it contains the application code, dependencies, and instructions for how to run the app.
+- A **container** is a running (or stopped) instance of an image — the live, executable version.
+
+```bash
+docker run redis
+```
+Here, `redis` is the image, and running this command creates a **container** from it.
+
+### Example
+
+```bash
+docker run -d --name my-redis redis
+docker ps
+```
+This creates and runs a container named `my-redis` from the `redis` image, isolated from other processes on the host, but sharing the host's kernel.
 
 *****
 
 ## Docker vs Virtual Machine
-<br />
 
-Virtual machines consist of the Kernel layer and the application layer of the OS, whereas Docker containers just consist of the applications layer and use the Kernel layer of the host's OS.
+Both Docker containers and Virtual Machines (VMs) let you run isolated applications, but they achieve isolation very differently — and that difference has a big impact on performance, size, and startup time.
+
+### Virtual Machines
+
+- Run on a **hypervisor** (e.g., VMware, VirtualBox, Hyper-V), which sits on top of the physical host hardware (or host OS).
+- Each VM includes a **full guest operating system** (its own kernel, drivers, etc.), completely separate from the host OS.
+- Heavier — typically gigabytes in size, and take minutes to boot.
+- Strong isolation, since each VM is essentially a separate machine.
+
+### Docker Containers
+
+- Run on the **Docker Engine**, which sits on top of the host OS.
+- Containers **share the host OS kernel** — they don't bundle their own OS, just the application and its dependencies.
+- Lightweight — typically megabytes in size, and start in seconds (or less).
+- Slightly weaker isolation than VMs (since the kernel is shared), but sufficient for most application-level use cases.
+
+### Comparison Table
+
+| Aspect              | Virtual Machine                     | Docker Container                     |
+|---------------------|--------------------------------------|----------------------------------------|
+| OS                  | Full guest OS per VM                | Shares host OS kernel                  |
+| Size                | GBs                                  | MBs                                    |
+| Boot time           | Minutes                              | Seconds (or less)                      |
+| Isolation           | Strong (hardware-level via hypervisor) | Process-level (namespaces, cgroups) |
+| Performance overhead| Higher                               | Near-native                            |
+| Portability         | Less portable (large images)         | Highly portable                        |
+| Resource efficiency | Lower (duplicated OS per VM)         | Higher (shared kernel)                 |
+
+### When to Use Which
+
+- **VMs** — when you need strong isolation between environments, need to run different OS kernels (e.g., Windows and Linux) on the same hardware, or have legacy/security requirements demanding full hardware-level separation.
+- **Containers** — when you want fast, lightweight, portable deployment of applications, especially in microservices architectures, CI/CD pipelines, and cloud-native environments.
+
+> In practice, many production environments run **containers inside VMs** — combining the strong isolation of VMs at the infrastructure level with the efficiency and portability of containers at the application level.
 
 *****
 
-## Docker Architectue
-<br />
+## Docker Architecture
 
-[What is Buildah](https://www.redhat.com/en/topics/containers/what-is-buildah) <br />
-[buildah](https://buildah.io/) <br />
-[buildah - tutorials](https://github.com/containers/buildah/tree/main/docs/tutorials) <br />
+Docker uses a **client-server architecture**. The main components are the **Docker Client**, **Docker Daemon (Docker Engine)**, **Docker Images**, **Docker Containers**, **Docker Registry**, and supporting objects like networks and volumes.
+
+### Core Components
+
+#### 1. Docker Client
+- The primary way users interact with Docker (via the `docker` CLI command, or Docker Desktop UI).
+- Sends commands (e.g., `docker run`, `docker build`, `docker pull`) to the Docker Daemon using the Docker API.
+- The client and daemon can run on the same machine, or the client can connect to a remote daemon.
+
+#### 2. Docker Daemon (`dockerd`)
+- Runs in the background on the host machine and does the actual work: building, running, and managing containers, images, networks, and volumes.
+- Listens for API requests from the Docker Client.
+- Can communicate with other daemons to manage Docker services (e.g., in Swarm mode).
+
+#### 3. Docker Images
+- Read-only templates used to create containers.
+- Built in layers, based on instructions in a `Dockerfile`.
+- Stored locally or pulled from/pushed to a registry.
+
+#### 4. Docker Containers
+- Running instances of Docker images.
+- Isolated using Linux kernel features: **namespaces** (process, network, mount, etc., for isolation) and **cgroups** (control groups, for limiting CPU/memory/resources).
+
+#### 5. Docker Registry
+- A storage and distribution system for Docker images.
+- **Docker Hub** is the default public registry, but private registries (e.g., AWS ECR, GitHub Container Registry, self-hosted registries) are also common.
+- `docker pull` downloads an image from a registry; `docker push` uploads one to it.
+
+#### 6. Docker Objects
+Additional objects Docker manages:
+- **Networks** — enable communication between containers (see Docker Network notes).
+- **Volumes** — persist data generated/used by containers, independent of the container lifecycle.
+- **Dockerfile** — a text file with instructions to build a Docker image.
+
+### Architecture Flow
+
+```
+ ┌─────────────┐        REST API / CLI        ┌───────────────────┐
+ │ Docker Client│ ───────────────────────────▶ │   Docker Daemon    │
+ │  (docker CLI)│                               │     (dockerd)      │
+ └─────────────┘                               └─────────┬──────────┘
+                                                            │
+                                     ┌──────────────────────┼──────────────────────┐
+                                     ▼                      ▼                      ▼
+                              ┌────────────┐         ┌────────────┐        ┌────────────┐
+                              │   Images   │         │ Containers │        │  Networks/  │
+                              │            │         │            │        │   Volumes   │
+                              └────────────┘         └────────────┘        └────────────┘
+                                     ▲
+                                     │ pull / push
+                                     ▼
+                              ┌────────────────┐
+                              │ Docker Registry │
+                              │  (e.g. Docker   │
+                              │      Hub)       │
+                              └────────────────┘
+```
+
+### Example Workflow
+
+1. You run `docker build -t my-app .` → Docker Client sends the build request to the Daemon.
+2. Daemon builds an **image** using the `Dockerfile` instructions.
+3. You run `docker run my-app` → Daemon creates and starts a **container** from that image.
+4. If the image isn't available locally, the Daemon **pulls** it from a **registry** (e.g., Docker Hub) first.
+5. The container runs isolated via namespaces/cgroups, optionally attached to a **network** and using **volumes** for persistent data.
+
+---
+
+> **Summary:** Docker's architecture separates the *client* (what you type) from the *daemon* (what does the work), uses *images* as blueprints and *containers* as running instances, and relies on a *registry* to distribute images — all while leveraging the host OS kernel directly instead of virtualizing hardware, which is what makes Docker lightweight compared to traditional VMs.
 
 *****
 
-
-## Main Docker Command
+## Main Docker Commands
 <br />
 
 - `docker help <command>` = show help for a specific command
