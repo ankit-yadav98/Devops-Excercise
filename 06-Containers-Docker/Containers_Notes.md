@@ -2,7 +2,7 @@
 <br />
 
 
-<summary> What is a container? </summary>
+## What is a container? 
 <br />
 
 [Docker vs containerd vs cri-o](https://phoenixnap.com/kb/docker-vs-containerd-vs-cri-o) \
@@ -12,14 +12,14 @@ For buildah, see links in notes on video 4 - Docker Architecture.
 
 *****
 
-<summary> Docker vs Virtual Machine</summary>
+## Docker vs Virtual Machine
 <br />
 
 Virtual machines consist of the Kernel layer and the application layer of the OS, whereas Docker containers just consist of the applications layer and use the Kernel layer of the host's OS.
 
 *****
 
-<summary> Docker Architectue</summary>
+## Docker Architectue
 <br />
 
 [What is Buildah](https://www.redhat.com/en/topics/containers/what-is-buildah) <br />
@@ -29,7 +29,7 @@ Virtual machines consist of the Kernel layer and the application layer of the OS
 *****
 
 
-<summary> Main Docker Command</summary>
+## Main Docker Command
 <br />
 
 - `docker help <command>` = show help for a specific command
@@ -49,7 +49,7 @@ Virtual machines consist of the Kernel layer and the application layer of the OS
 
 *****
 
-<summary> Debug Commands</summary>
+## Debug Commands
 <br />
 
 - `docker logs <container-id|container-name>` = shows the log output of the specified container
@@ -58,7 +58,80 @@ Virtual machines consist of the Kernel layer and the application layer of the OS
 
 *****
 
-<summary> Developing with Docker</summary>
+## Docker Network
+
+A **Docker network** is a virtual network that lets containers communicate with each other (and with the outside world) in a controlled way. By default, Docker sets up networking so containers get an IP address and can talk over it, but *how* they can talk depends on which network they're attached to.
+
+### Why it matters
+
+Without proper networking, containers would be isolated or all mashed together with no control over who can reach whom. Docker networks let you group containers, isolate them, and control communication — similar to how VMs or physical machines use networks/subnets.
+
+### Default Network Types (Drivers)
+
+#### 1. `bridge` (default)
+- Used when you run a container without specifying a network.
+- Containers on the same bridge network can talk to each other via IP (and by container name, if using a *custom* bridge network — the default `bridge` network doesn't support DNS name resolution, only custom ones do).
+- Isolated from the host network unless you publish ports with `-p`.
+
+```bash
+docker network ls
+```
+
+#### 2. `host`
+- Container shares the host's network stack directly — no isolation, no port mapping needed.
+- Useful for performance-sensitive apps, but less secure/isolated.
+
+```bash
+docker run --network host nginx
+```
+
+#### 3. `none`
+- Container gets no network access at all. Fully isolated.
+
+```bash
+docker run --network none redis
+```
+
+#### 4. `overlay`
+- Used for multi-host networking, typically with Docker Swarm — lets containers on *different physical hosts* communicate as if on the same network.
+
+#### 5. `macvlan`
+- Assigns a container a real MAC address, making it appear as a physical device on your network. Useful for legacy apps expecting direct LAN access.
+
+### Custom Networks (The Practical Everyday Case)
+
+Most real-world setups use a **custom bridge network** instead of the default one, because:
+- Containers can resolve each other **by name** (built-in DNS), not just IP.
+- Better isolation — only containers explicitly attached can talk to each other.
+
+#### Example
+
+```bash
+docker network create my-network
+
+docker run -d --name redis-container --network my-network redis
+docker run -d --name app-container --network my-network my-app
+```
+
+Now `app-container` can reach Redis simply using the hostname `redis-container:6379` — no need to hardcode IPs.
+
+### Useful Commands
+
+```bash
+docker network ls                     # list networks
+docker network inspect my-network     # see containers attached, subnet, etc.
+docker network create my-network      # create a custom network
+docker network connect my-network c1  # attach existing container
+docker network rm my-network          # remove a network
+```
+
+### Summary
+
+> Docker networks control *which containers can see and talk to each other*, and custom bridge networks are typically what you want for multi-container apps (e.g., an app + a database) because they give you name-based service discovery instead of manually tracking IPs.
+
+*****
+
+## Developing with Docker
 <br />
 
 Download the required [mongo](https://hub.docker.com/_/mongo) and [mongo express](https://hub.docker.com/_/mongo-express) images:
@@ -112,7 +185,7 @@ Access the application in your browser under `http://localhost:3000` and edit a 
 
 *****
 
-<summary> Docker Compose - Run multiple Docker containers</summary>
+## Docker Compose - Run multiple Docker containers
 <br />
 
 Docker Compose simplifies managing and running multiple Docker containers. The containers are specified in just one `docker-compose.yaml` file. To start the same containers as in video 8, the file looks like this:
@@ -154,7 +227,7 @@ To stop the containers (and the automatically created network), call `docker-com
 *****
 
 
-<summary> Dockerfile - Build your own Docker Image</summary>
+## Dockerfile - Build your own Docker Image
 <br />
 
 A Dockerfile is a blueprint for creating images.
@@ -183,7 +256,7 @@ to the specification of the container that wants to access the Docker host. Like
 
 *****
 
-<summary> Private Docker Repository</summary>
+## Private Docker Repository
 <br />
 
 Prerequisites:\
@@ -227,7 +300,7 @@ Now we can push the image to the private registry:\
 
 *****
 
-<summary> Deploy Docker application on a server</summary>
+## Deploy Docker application on a server
 <br />
 
 To start the application using docker compose, we have to add a container with the application to the `docker-compose.yaml` file created in video 9:
@@ -273,7 +346,7 @@ Add a file called `docker-compose.yaml` with the above content to the server whe
 
 *****
 
-<summary> Docker Volumes - Persisting Data</summary>
+## Docker Volumes - Persisting Data
 <br />
 
 There are three types of volumes:
@@ -308,7 +381,7 @@ volumes:
 
 *****
 
-<summary> Create Docker Hosted Repository on Nexus</summary>
+## Create Docker Hosted Repository on Nexus
 <br />
 
 Open the Nexus administration site (on the DigitalOcean Nexus droplet created in module 6), create a new repository of type 'docker (hosted)' and call it 'docker-hosted'.
@@ -337,7 +410,7 @@ Now that we are logged in to the Nexus Docker repository, we can push images to 
 
 *****
 
-<summary> Deploy Nexus as Docker Container</summary>
+## Deploy Nexus as Docker Container
 <br />
 
 Open the DigitalOcean admin site and create a new Droplet (4GB RAM, 80GB SSO Disk). Add the existing firewall rule opening port 22 to this new Droplet. As an alternative, you can use the existing Droplet running the manually installed and configured Nexus instance. To stop this running Nexus instance, call `/opt/nexus-3.46.0-01/bin/nexus stop`.
@@ -354,7 +427,7 @@ If you want to find out, where the data of the container is stored on the host (
 
 *****
 
-<summary> Docker Best Practices</summary>
+## Docker Best Practices
 <br />
 
 - Whenever available use an official Docker image as the base image for you own images
