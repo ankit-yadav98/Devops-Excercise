@@ -42,6 +42,10 @@ Virtual machines consist of the Kernel layer and the application layer of the OS
 - `docker ps` = shows information about all running containers; with option `-a` the stopped containers are listed too
 - `docker stop <container-id|container-name>` = stops the container with the given id|name 
 - `docker start <container-id|container-name>` = (re-)starts the container with the given id|name 
+- `docker image inspect <image-name>` = Every image can declare EXPOSE in its Dockerfile, and you can check this without even running a container using this command.
+- `docker history <image-name>` = Shows the layers/instructions used to build the image. Using this command we can check the EXPOSE line as well which shows the port used to be exposed.
+- `docker container prune` = Remove all stopped containers at once which are shown in `docker ps -a`
+- `docker rm <container-id>` = You can remove a stopped container with container id as well.
 
 *****
 
