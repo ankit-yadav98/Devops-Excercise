@@ -356,6 +356,7 @@ FROM <image>                          # specifies the base image for our new ima
 ENV <name>=<value>                    # define environment variables that will be set in the running container
 RUN <Linux command>                   # execute any Linux command
 COPY <host-source> <container-target> # copies the directory/file on the host into the image
+WORKDIR <path>                        # sets the working directory and all the commands will be executed in those container enviornment path
 CMD["cmd", "argument"]                # entry point (command that will be executed when a container is started based on this image)
 ```
 
@@ -371,6 +372,12 @@ extra_hosts:
   - "host.docker.internal:host-gateway"
 ```
 to the specification of the container that wants to access the Docker host. Like this the `docker-compose.yaml` is portable for all plattforms.
+
+When you adjust the Dockerfile, you must rebuild the image. And in order to do so, we have to first remove the image and before deleting the image, we have to delete the container as well if we have created the container using run command. Below is the command to remove image:
+
+`docker rmi <image-id>`
+
+After deleting the image, we can rebuild the image using the above docker build command.
 
 *****
 
