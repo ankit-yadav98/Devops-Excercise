@@ -401,27 +401,30 @@ Prerequisites:\
   - Go to Services > IAM > Users and create a new user called `admin`, provide access to the AWS management console, select 'I want to create an IAM user' and click on 'Next', select 'Attach existing policies directly', select 'AdministratorAccess' and click on 'Next', check the data on the summary page and click 'Create User'. Download the csv-file containing the console login URL and the console password.
   - Logout as root user and open the console login URL (in the csv-file) and enter the username (`admin`) and password (also in the csv-file) to login as the new admin user. Change the password.
   - Go to Services > IAM > Users, select the admin user, open the tab 'Security login information' (Sicherheitsanmeldeinformationen), go to 'Access keys' and click on 'Create access keys', select 'Command Line Interface CLI' and click on 'Create access keys'. Download the csv-file containing the access key ID and the secret access key.
-  - Execute `aws configure` and enter the access key ID, the secret access key, the region (e.g. `eu-central-1`) and the output format (e.g. `json`, or `yaml`).
+  - Execute `aws configure` and enter the access key ID, the secret access key, the region (e.g. `ap-south-1`) and the output format (e.g. `json`, or `yaml`).
 
 Create an ECR Service:\
 ECR (Elastic Container Registry) is the service on AWS you can use to create a Docker regristry.
-- Login to the AWS account and open the [Management Console](https://eu-central-1.console.aws.amazon.com/console/home?region=eu-central-1#)
+- Login to the AWS account and open the Management Console
 - Go to Services > Container > Elastic Container Registry
 - Click on "Create a repository / Get Started"
-- Select "Private" repository and give it a name (e.g. user-profile)\
+- Select "Private" repository and give it a name (e.g. js-app)\
 Note that on AWS you use one ECR per Docker image (all versions of an image are stored in one ECR)
 - Leave all other form fields unchanged an click on "Create repository"
 
 Authenticate the Docker client for the private registry (`docker login`):\
-`aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 369076538622.dkr.ecr.eu-central-1.amazonaws.com`
 
-If the Docker image to be pushed to the registry is not yet created, go to the directory containing the Dockerfile and execute `docker build -t user-profile:1.0.0 .`.
+`aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 996992102965.dkr.ecr.ap-south-1.amazonaws.com`
+
+If the Docker image to be pushed to the registry is not yet created, go to the directory containing the Dockerfile and execute `docker build -t js-app:1.0 .`.
 
 Because we want to push this image to a private registry (not Docker Hub, where the default repository name `docker.io/library` is implicitly added, e.g. `docker pull nginx:latest` is interpreted as `docker pull docker.io/library/nginx:latest`), we have to tag (mark) it with the fully qualified image name (containing the repository name):\
-`docker tag user-profile:1.0.0 369076538622.dkr.ecr.eu-central-1.amazonaws.com/user-profile:1.0.0`
+
+`docker tag js-app:1.0 996992102965.dkr.ecr.ap-south-1.amazonaws.com/js-app:1.0`
 
 Now we can push the image to the private registry:\
-`docker push 369076538622.dkr.ecr.eu-central-1.amazonaws.com/user-profile:1.0.0`
+
+`docker push 996992102965.dkr.ecr.ap-south-1.amazonaws.com/js-app:1.0`
 
 *****
 
