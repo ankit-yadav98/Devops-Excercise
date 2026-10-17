@@ -4,7 +4,7 @@
 - Docker Compose - Run multiple Docker Containers
 - Dockerize Nodejs application
 
-## Technologiesused:
+## Technologies used:
 
 Docker, Nodejs, MongoDB, MongoExpress
 
