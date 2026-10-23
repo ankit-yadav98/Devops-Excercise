@@ -4,6 +4,8 @@ This demo app shows a simple user profile app set up using
 - index.html with pure js and css styles
 - nodejs backend with express module
 - mongodb for data storage
+- Docker volumes to persist data of MongoDB container
+- AWS ECR used to build and deploy image to remote repo
 
 All components are docker-based
 
