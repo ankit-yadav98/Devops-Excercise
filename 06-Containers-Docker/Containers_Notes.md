@@ -550,15 +550,15 @@ curl -u ankit:password -X GET 'http://13.202.94.215:8081/service/rest/v1/compone
 ## Deploy Nexus as Docker Container
 <br />
 
-Open the DigitalOcean admin site and create a new Droplet (4GB RAM, 80GB SSO Disk). Add the existing firewall rule opening port 22 to this new Droplet. As an alternative, you can use the existing Droplet running the manually installed and configured Nexus instance. To stop this running Nexus instance, call `/opt/nexus-3.46.0-01/bin/nexus stop`.
+Open the aws site and create a new EC2 instance (min requirement: 4GB RAM, 80GB SSD Disk). Add the existing firewall rule opening port 22 to this new ec2 instance. As an alternative, you can use the existing ec2 instance running the manually installed and configured Nexus instance. To stop this running Nexus instance, call `/opt/nexus-3.46.0-01/bin/nexus stop`.
 
-SSH into this Droplet and install Docker by executing `apt update` and `snap install docker`.
+SSH into this ec2 instance and install Docker by executing `apt update` and `snap install docker`.
 
-Open [Docker Hub](https://hub.docker.com) and search for the 'sonatype/nexus3' image. Find the commands in the documentation to create a volume and start the container. Go back to the terminal of the DigitalOcean Droplet and execute them:
+Open [Docker Hub](https://hub.docker.com) and search for the 'sonatype/nexus3' image. Find the commands in the documentation to create a volume and start the container. Go back to the terminal of the AWS EC2 instance and execute them:
 - `docker volume create --name nexus-data`
 - `docker run -d -p 8081:8081 --name nexus -v nexus-data:/nexus-data sonatype/nexus3`
 
-Now Nexus is running (under the non root user named 'nexus') and can be accessed in the browser opening `http://<droplet-ip-address>:8081`.
+Now Nexus is running (under the non root user named 'nexus') and can be accessed in the browser opening `http://<ec2-instance-ip-address>:8081`.
 
 If you want to find out, where the data of the container is stored on the host (i.e. where the folder referenced by the named volume 'nexus-data' is located), execute `docker inspect nexus-data` and read the "Mountpoint" property. In this folder you can find the data Nexus stores in its subfolder called 'sonatype-work'. You will find the initial admin password there, for example.
 
