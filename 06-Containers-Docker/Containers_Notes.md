@@ -518,7 +518,7 @@ In order to be able to execute `docker login` for this new repository, we need t
 
 The `docker login` command needs an ip address and a port. Until now we just have the URL `http://<nexus-droplet-ip>:8081/repository/docker-hosted`. To make this repository accessible just via ip address and port, we open the repo in the settings area, check the 'HTTP' checkbox and add the port number 8083.
 
-On AWS EC2 instancen site we have to add this port 8083 to the firewall rules (Custom, TCP, 8083, AllIpv4) that are defined for the nexus droplet.
+On AWS EC2 instance site we have to add this port 8083 to the firewall rules (Custom, TCP, 8083, AllIpv4) that are defined for the nexus droplet.
 
 Back on the Nexus settings area, select Security > Realms and activate the 'Docker Bearer Token Realm'. (When `docker login` is executed for the first time against a specific Docker repository, we get an authentication token from that repository for our client. These tokens are stored in the file `~/.docker/config.json` and will then be used every time we interact with the related repository.)
 
@@ -535,6 +535,15 @@ Now we can finally call `docker login <nexus-droplet-ip>:8083` and enter usernam
 Now that we are logged in to the Nexus Docker repository, we can push images to it as we did in video 11 (tag the image with the repository id and push it):
 - `docker tag user-profile:1.1.0 <nexus-droplet-ip>:8083/user-profile:1.1.0`
 - `docker push <nexus-droplet-ip>:8083/user-profile:1.1.0`
+
+Below curl command can be used to fetch the image from the nexus docker-hosted repository where it uses the REST API:
+curl -u nexus-user:password -X GET 'http://<nexus-hosted-ec2-instance-ip>:<port>/service/rest/v1/components?repository=docker-hosted'
+
+eg command:
+
+```sh
+curl -u ankit:password -X GET 'http://13.202.94.215:8081/service/rest/v1/components?repository=docker-hosted'
+```
 
 *****
 
