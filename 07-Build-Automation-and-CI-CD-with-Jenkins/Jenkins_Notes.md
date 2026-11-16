@@ -27,11 +27,11 @@ All of these tasks can be controlled/managed by a build automation tool like [Je
 
 See the [Jenkins Documentation](https://www.jenkins.io/doc/book/installing/docker/).
 
-**Create a Droplet on DigitalOcean**
+**Create an EC2 Instance on AWS**
 
-Login to your DigitalOcean account an create a new Droplet (4GB RAM). Jenkins needs at least 1GB RAM. Change the Droplet's name to something like 'jenkins-server' and attach a firewall rule-set to it opening port 22 for SSH from your machine's IP address and port 8080 (Type=Custom) for Jenkins from all IP addresses.
+Login to your AWS account and create a new EC2 Instance (4GB RAM). Jenkins needs at least 1GB RAM. And then attach a firewall rule-set to it opening port 22 for SSH from your machine's IP address and port 8080 (Type=Custom) for Jenkins from all IP addresses.
 
-SSH into the Droplet (`ssh root@<droplet-ip>`) and install Docker (since we want to run Jenkins in a Docker container):
+SSH into the EC2 Instance (`ssh root@<ec2-instance-ip>`) and install Docker (since we want to run Jenkins in a Docker container):
 ```sh
 apt update
 apt install docker.io
@@ -55,7 +55,7 @@ docker volume inspect jenkins_home
 cat /var/lib/docker/volumes/jenkins_home/_data/secrets/initialAdminPassword
 ```
 
-Open Jenkins in the browser under `http://<droplet-ip>:8080`, enter the initial administrator password and install the suggested plugins. After creating a first admin user, the initialization of Jenkins is done and the welcome screen is displayed.
+Open Jenkins in the browser under `http://<ec2-instance-ip>:8080`, enter the initial administrator password and install the suggested plugins. After creating a first admin user, the initialization of Jenkins is done and the welcome screen is displayed.
 
 
 *****
@@ -79,10 +79,10 @@ To execute maven builds or run npm tests, these tools have to be installed. Ther
 For most of the usual build tools a related plugin is already installed. For Maven this is the case too. So we just have to configure the already installed plugin.
 
 Go to the "Manage Jenkins" section and click on "Global Tool Configuration".
-Click on the "Add Maven" buttton, enter a name (e.g. maven-3.6) and click on "Save". Now you have the maven command available in all Jenkins jobs.
+Click on the "Add Maven" buttton, enter a name (e.g. maven-3.10) and click on "Save". Now you have the maven command available in all Jenkins jobs.
 
 ### Install npm and Node in the Jenkins container
-Enter the docker container as root user (because we need the privilege to install tools):
+Enter the docker container as root user (login to root user is done by adding -u param with 0 which means root user) (because we need the privilege to install tools):
 ```sh
 docker exec -u 0 -it <container-id> bash
 ```
@@ -100,7 +100,7 @@ cat /etc/issue
 # => e.g. 'Debian GNU/Linux 9 \n \l'
 
 # lookup the matching URL to download a node install script and execute the following curl command
-curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
+curl -sL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh
 
 # execute the install script and install node and npm
 bash nodesource_setup.sh
