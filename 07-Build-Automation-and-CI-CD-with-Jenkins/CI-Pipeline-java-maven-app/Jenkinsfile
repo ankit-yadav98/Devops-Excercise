@@ -1,22 +1,30 @@
 pipeline {   
     agent any
-    
+    parameters {
+        choice(name: 'VERSION', choices:['1.1.0', '1.2.0', '1.3.0'], description: 'Version to be deployed on prod')
+        booleanParam(name: 'executeTests', value: true, desciption: 'if test to be executed or not')
+    }
     stages {
         stage("build") {
             steps {
-		echo "Building the application..."
-              }
+				echo "Building the application..."
+			}
 	   }
 	stage("test") {
-	    steps {
-		echo "Testing the application..."
+            when {
+                expression{
+                    params.executeTests == true
+				}
+            }
+	    	steps {
+				echo "Testing the application..."
+			}
 		}
-	}
 	stage("deploy") {
-	    steps {
-		echo "Building the application..."
-		}
+	    	steps {
+				echo "Building the application..."
+                echo "Deploying version ${params.VERSION}"
+			}
 	   }
-    	}
+	}
 }
-
