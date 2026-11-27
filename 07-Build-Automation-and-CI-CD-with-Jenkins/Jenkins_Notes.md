@@ -148,7 +148,7 @@ To create Docker images during the builds, Jenkins needs to have access to the d
 
 To do that, stop the running Jenkins container and start it again with the following command:
 ```sh
-docker run -p 8080:8080 -p 50000:50000 -d \
+docker run -p 8085:8080 -p 50000:50000 -d \
   -v jenkins_home:/var/jenkins_home \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v $(which docker):/usr/bin/docker \
@@ -194,7 +194,7 @@ Save the build configuration and run the build. Then go to your private reposito
 Because our Nexus repository is accessible via http (not https) we have to add the "insecure-registries" configuration to the host running the Jenkins container. SSH into the droplet running the Jenkins container and create a file `/etc/docker/daemon.json` with the following content:
 ```sh
 {
-  "insecure-registries": ["<nexus-droplet-ip>:8083"]
+  "insecure-registries": ["<ec2-instance-ip>:8085"]
 }
 ```
 
